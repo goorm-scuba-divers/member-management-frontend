@@ -2,6 +2,7 @@
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.defaultFormatter": "biomejs.biome",
+  "notebook.defaultFormatter": "biomejs.biome",
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome",
     "editor.codeActionsOnSave": {
@@ -23,5 +24,8 @@
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }
