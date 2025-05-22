@@ -1,0 +1,20 @@
+{
+  "lsp": {
+    "vtsls": {
+      "initialization_options": {
+        "typescript": {
+          "tsdk": ".yarn/sdks/typescript/lib"
+        }
+      }
+    },
+    "biome": {
+      "binary": {
+        "arguments": ["lsp-proxy"]
+      },
+      "settings": {
+        "require_config_file": true,
+        "config_path": "biome.json"
+      }
+    }
+  }
+}
