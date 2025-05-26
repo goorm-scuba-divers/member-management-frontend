@@ -1,7 +1,25 @@
+import Home from "@/pages/Home"
+import Members from "@/pages/Members"
+import Settings from "@/pages/Settings"
+import Signin from "@/pages/Signin"
+import Signup from "@/pages/Signup"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
 
 function App() {
-  return <></>
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/members" element={<Members />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  )
 }
 
 export default App
