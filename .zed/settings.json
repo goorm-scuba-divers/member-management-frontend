@@ -1,9 +1,26 @@
 {
+  "language_servers": ["vtsls", "biome"],
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "code_actions": {
+    "source.fixAll.biome": true,
+    "source.organizeImports": true,
+    "source.autoImports": true,
+    "source.addMissingImports": true,
+    "source.sortImports": true,
+    "source.removeUnusedImports": true
+  },
   "lsp": {
     "vtsls": {
-      "initialization_options": {
+      "settings": {
         "typescript": {
-          "tsdk": ".yarn/sdks/typescript/lib"
+          "tsdk": ".yarn/sdks/typescript/lib",
+          "preferences": {
+            "importModuleSpecifier": "non-relative"
+          }
         }
       }
     },
