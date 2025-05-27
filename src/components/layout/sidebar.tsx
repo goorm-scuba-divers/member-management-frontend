@@ -10,7 +10,7 @@ import {
 import type { Route } from "@/constants/routes"
 import type { LucideIcon } from "lucide-react"
 
-export type SidebarMenuProps = {
+export type SidebarMenuItems = {
   title: string
   icon: LucideIcon
   route: Route
@@ -20,7 +20,7 @@ export type SidebarMenuProps = {
 export default function Sidebar({
   menuItems,
 }: {
-  menuItems: SidebarMenuProps[]
+  menuItems: SidebarMenuItems[]
 }) {
   return (
     <ShadcnSidebar>

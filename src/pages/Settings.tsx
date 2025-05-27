@@ -1,10 +1,11 @@
+import EditForm from "@/components/edit-form"
 import Header from "@/components/layout/header"
-import Sidebar, { type SidebarMenuProps } from "@/components/layout/sidebar.tsx"
+import Sidebar, { type SidebarMenuItems } from "@/components/layout/sidebar.tsx"
 import { SidebarProvider } from "@/components/shadcn-ui/sidebar"
 import { routes } from "@/constants/routes.ts"
 import { Settings } from "lucide-react"
 
-const menus: SidebarMenuProps[] = [
+const menuItems: SidebarMenuItems[] = [
   {
     title: "settings",
     icon: Settings,
@@ -18,10 +19,11 @@ export default () => {
     <>
       <div className="flex">
         <SidebarProvider className="w-auto">
-          <Sidebar menuItems={menus} />
+          <Sidebar menuItems={menuItems} />
         </SidebarProvider>
         <div className="w-full mx-7.5">
           <Header title={"Settings"} />
+          <EditForm />
         </div>
       </div>
     </>
