@@ -2,22 +2,24 @@ import EditForm from "@/components/edit-form"
 import Header from "@/components/layout/header"
 import Sidebar, { type SidebarMenuItems } from "@/components/layout/sidebar.tsx"
 import { routes } from "@/constants/routes.ts"
-import { Settings } from "lucide-react"
+import { Settings as SettingsIcon } from "lucide-react"
 
 const menuItems: SidebarMenuItems[] = [
   {
     title: "settings",
-    icon: Settings,
+    icon: SettingsIcon,
     route: routes.settings,
     isActive: true,
   },
 ]
 
-export default () => {
+export default function Settings() {
   return (
     <Sidebar menuItems={menuItems}>
-      <Header title={"Settings"} />
-      <EditForm />
+      <main className="flex w-full flex-col items-center lg:justify-center">
+        <Header title={"Settings"} />
+        <EditForm />
+      </main>
     </Sidebar>
   )
 }

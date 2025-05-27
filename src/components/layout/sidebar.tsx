@@ -36,7 +36,7 @@ export default function Sidebar({
         }
       >
         <ShadcnSidebar>
-          <ShadcnSidebarHeader className="items-center justify-center h-[94px] border-b-1">
+          <ShadcnSidebarHeader className="h-[94px] items-center justify-center border-b-1">
             <img className="h-[42px] w-[120px]" src={imageUrl} alt="logo" />
           </ShadcnSidebarHeader>
           <ShadcnSidebarContent>
@@ -54,7 +54,7 @@ export default function Sidebar({
             </ShadcnSidebarMenu>
           </ShadcnSidebarContent>
         </ShadcnSidebar>
-        <main className="flex w-full flex-col items-center">{children}</main>
+        {children}
       </SidebarProvider>
     </>
   )

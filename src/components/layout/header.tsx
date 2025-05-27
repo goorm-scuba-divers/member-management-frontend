@@ -6,7 +6,7 @@ type HeaderProps = {
 export default function Header({ title }: HeaderProps) {
   return (
     <>
-      <h1 className="flex items-center justify-start w-full px-4 md:px-15 text-2xl font-medium tracking-wide h-[94px]">
+      <h1 className="flex h-[94px] w-full items-center justify-start px-4 font-medium text-2xl tracking-wide md:px-15 ">
         {title}
       </h1>
     </>

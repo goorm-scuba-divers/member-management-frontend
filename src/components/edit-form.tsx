@@ -6,10 +6,10 @@ import { Label } from "@radix-ui/react-label"
 export default function EditForm() {
   return (
     <>
-      <div className="w-full max-w-3xl px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12">
+      <div className="flex min-h-[calc(100vh-188px)] w-full max-w-3xl flex-col justify-center">
         <div className="flex flex-col gap-2">
-          <div className="text-xl font-bold">Profile</div>
-          <p className="text-sm text-muted-foreground">
+          <div className="font-bold text-xl">Profile</div>
+          <p className="text-muted-foreground text-sm">
             This is how others will see you on the site.
           </p>
         </div>
@@ -29,7 +29,7 @@ export default function EditForm() {
                 className="py-5"
                 required={true}
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 This is your public display name. It can be your real name or a pseudonym.
               </p>
             </div>
@@ -49,7 +49,7 @@ export default function EditForm() {
                 placeholder="New Password"
                 className="py-5"
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 The new password must be at least 8 characters long, including both letters and
                 numbers.
               </p>
@@ -65,8 +65,8 @@ export default function EditForm() {
         <Separator className="my-8" />
 
         <div className="flex flex-col gap-2">
-          <div className="text-xl font-bold text-destructive">Delete Account</div>
-          <p className="text-sm text-muted-foreground">
+          <div className="font-bold text-destructive text-xl">Delete Account</div>
+          <p className="text-muted-foreground text-sm">
             Once deleted, the data cannot be recovered.
           </p>
           <div className="flex justify-end">

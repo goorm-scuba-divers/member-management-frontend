@@ -40,6 +40,9 @@
         "noExplicitAny": "error",
         "noArrayIndexKey": "error",
         "noDuplicateJsxProps": "error"
+      },
+      "nursery": {
+        "useSortedClasses": "error"
       }
     }
   },

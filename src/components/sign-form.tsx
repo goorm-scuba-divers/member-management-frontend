@@ -6,11 +6,11 @@ import { Label } from "@radix-ui/react-label"
 
 export default function SignForm({ title, description, fields, footer }: SignFormProps) {
   return (
-    <div className="flex w-full items-center justify-center p-6 min-h-svh md:p-10">
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="flex flex-col">
         <div className="flex flex-col gap-3">
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-balance txt-sm text-muted-foreground">{description}</p>
+          <h1 className="font-bold text-2xl">{title}</h1>
+          <p className="txt-sm text-balance text-muted-foreground">{description}</p>
         </div>
 
         <Separator className="my-8" />
@@ -28,14 +28,14 @@ export default function SignForm({ title, description, fields, footer }: SignFor
                       {field.subLink && (
                         <a
                           href={field.subLink.route}
-                          className="text-xs underline-offset-4 text-muted-foreground hover:underline"
+                          className="text-muted-foreground text-xs underline-offset-4 hover:underline"
                         >
                           {field.subLink.text}
                         </a>
                       )}
                     </div>
                     {field.helperText && (
-                      <p className="text-xs text-muted-foreground">{field.helperText}</p>
+                      <p className="text-muted-foreground text-xs">{field.helperText}</p>
                     )}
                     <Input
                       id={field.label}
@@ -58,7 +58,7 @@ export default function SignForm({ title, description, fields, footer }: SignFor
             </form>
 
             {/* footer section */}
-            <div className="mt-1 text-center text-sm capitalize text-muted-foreground">
+            <div className="mt-1 text-center text-muted-foreground text-sm capitalize">
               {footer.description}{" "}
               {footer.actionLink && (
                 <a href={footer.actionLink.route} className="underline-offset-4 hover:underline">
