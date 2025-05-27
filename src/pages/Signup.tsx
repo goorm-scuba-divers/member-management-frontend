@@ -1,5 +1,6 @@
 import SignForm from "@/components/ui/sign-form"
-import type { SignFormProps } from "@/types/sign"
+import { routes } from "@/constants/routes.ts"
+import type { SignFormProps } from "@/types/sign.ts"
 
 const signupForm: SignFormProps = {
   title: "Sign Up",
@@ -28,7 +29,7 @@ const signupForm: SignFormProps = {
   footer: {
     description: "Already have an account?",
     actionLink: {
-      href: "/signin",
+      route: routes.signin,
       text: "Sign in",
     },
   },

@@ -1,5 +1,6 @@
 import SignForm from "@/components/ui/sign-form"
-import type { SignFormProps } from "@/types/sign"
+import { routes } from "@/constants/routes.ts"
+import type { SignFormProps } from "@/types/sign.ts"
 
 const signinForm: SignFormProps = {
   title: "Sign In",
@@ -17,7 +18,7 @@ const signinForm: SignFormProps = {
       placeholder: "Enter your password",
       required: true,
       subLink: {
-        href: "/reset-password",
+        route: routes.home,
         text: "Forgot your password?",
       },
     },
@@ -25,7 +26,7 @@ const signinForm: SignFormProps = {
   footer: {
     description: "Don't have an account?",
     actionLink: {
-      href: "/signup",
+      route: routes.signup,
       text: "Sign up",
     },
   },

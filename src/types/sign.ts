@@ -1,7 +1,8 @@
+import type { Route } from "@/constants/routes.ts"
 import type { HTMLInputTypeAttribute } from "react"
 
 type Link = {
-  href: string
+  route: Route
   text: string
 }
 

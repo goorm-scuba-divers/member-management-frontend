@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import type { SignFormProps } from "@/types/sign"
+import type { SignFormProps } from "@/types/sign.ts"
 
 export default function SignForm({ title, description, fields, footer }: SignFormProps) {
   return (
@@ -28,7 +28,7 @@ export default function SignForm({ title, description, fields, footer }: SignFor
                       </Label>
                       {field.subLink && (
                         <a
-                          href={field.subLink.href}
+                          href={field.subLink.route}
                           className="text-xs text-muted-foreground underline-offset-4 hover:underline"
                         >
                           {field.subLink.text}
@@ -59,10 +59,10 @@ export default function SignForm({ title, description, fields, footer }: SignFor
             </form>
 
             {/* footer section */}
-            <div className="mt-1 text-center text-sm text-muted-foreground">
+            <div className="mt-1 text-center text-sm text-muted-foreground capitalize">
               {footer.description}{" "}
               {footer.actionLink && (
-                <a href={footer.actionLink.href} className="hover:underline underline-offset-4">
+                <a href={footer.actionLink.route} className="hover:underline underline-offset-4">
                   {footer.actionLink.text}
                 </a>
               )}
