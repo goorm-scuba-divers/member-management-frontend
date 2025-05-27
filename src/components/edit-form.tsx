@@ -6,7 +6,7 @@ import { Label } from "@radix-ui/react-label"
 export default function EditForm() {
   return (
     <>
-      <div className="flex flex-col py-25 mx-50">
+      <div className="w-full max-w-3xl px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12">
         <div className="flex flex-col gap-2">
           <div className="text-xl font-bold">Profile</div>
           <p className="text-sm text-muted-foreground">
@@ -14,7 +14,7 @@ export default function EditForm() {
           </p>
         </div>
 
-        <Separator className="my-5" />
+        <Separator className="my-8" />
 
         <form>
           <div className="flex flex-col gap-7">
@@ -62,7 +62,7 @@ export default function EditForm() {
           </div>
         </form>
 
-        <Separator className="my-5" />
+        <Separator className="my-8" />
 
         <div className="flex flex-col gap-2">
           <div className="text-xl font-bold text-destructive">Delete Account</div>
