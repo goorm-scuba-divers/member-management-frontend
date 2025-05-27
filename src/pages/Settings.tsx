@@ -1,3 +1,4 @@
+import Header from "@/components/layout/header"
 import Sidebar, { type SidebarMenuProps } from "@/components/layout/sidebar.tsx"
 import { SidebarProvider } from "@/components/shadcn-ui/sidebar"
 import { routes } from "@/constants/routes.ts"
@@ -15,9 +16,14 @@ const menus: SidebarMenuProps[] = [
 export default () => {
   return (
     <>
-      <SidebarProvider className="w-auto">
-        <Sidebar menuItems={menus} />
-      </SidebarProvider>
+      <div className="flex">
+        <SidebarProvider className="w-auto">
+          <Sidebar menuItems={menus} />
+        </SidebarProvider>
+        <div className="w-full mx-7.5">
+          <Header title={"Settings"} />
+        </div>
+      </div>
     </>
   )
 }
