@@ -1,13 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
+import { Button } from "@/components/shadcn-ui/button"
+import { Input } from "@/components/shadcn-ui/input"
+import { Separator } from "@/components/shadcn-ui/separator"
 import type { SignFormProps } from "@/types/sign.ts"
+import { Label } from "@radix-ui/react-label"
 
 export default function SignForm({ title, description, fields, footer }: SignFormProps) {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="flex w-full items-center justify-center p-6 min-h-svh md:p-10">
       <div className="flex flex-col">
         <div className="flex flex-col gap-3">
           <h1 className="text-2xl font-bold">{title}</h1>
@@ -17,7 +16,7 @@ export default function SignForm({ title, description, fields, footer }: SignFor
         <Separator className="my-8" />
 
         <div className="w-[410px]">
-          <div className={cn("flex flex-col gap-6")}>
+          <div className={"flex flex-col gap-6"}>
             <form>
               <div className="flex flex-col gap-6">
                 {fields.map(field => (
@@ -29,7 +28,7 @@ export default function SignForm({ title, description, fields, footer }: SignFor
                       {field.subLink && (
                         <a
                           href={field.subLink.route}
-                          className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+                          className="text-xs underline-offset-4 text-muted-foreground hover:underline"
                         >
                           {field.subLink.text}
                         </a>
@@ -59,10 +58,10 @@ export default function SignForm({ title, description, fields, footer }: SignFor
             </form>
 
             {/* footer section */}
-            <div className="mt-1 text-center text-sm text-muted-foreground capitalize">
+            <div className="mt-1 text-center text-sm capitalize text-muted-foreground">
               {footer.description}{" "}
               {footer.actionLink && (
-                <a href={footer.actionLink.route} className="hover:underline underline-offset-4">
+                <a href={footer.actionLink.route} className="underline-offset-4 hover:underline">
                   {footer.actionLink.text}
                 </a>
               )}

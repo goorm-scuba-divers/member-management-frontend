@@ -1,3 +1,4 @@
+import imageUrl from "@/assets/logo.png"
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent as ShadcnSidebarContent,
@@ -5,10 +6,8 @@ import {
   SidebarMenu as ShadcnSidebarMenu,
   SidebarMenuButton as ShadcnSidebarMenuButton,
   SidebarMenuItem as ShadcnSidebarMenuItem,
-} from "@/components/ui/sidebar.tsx"
-
-import imageUrl from "@/assets/logo.png"
-import type { Route } from "@/constants/routes.ts"
+} from "@/components/shadcn-ui/sidebar"
+import type { Route } from "@/constants/routes"
 import type { LucideIcon } from "lucide-react"
 
 export type SidebarMenuProps = {
@@ -24,14 +23,14 @@ export default function Sidebar({
   menuItems: SidebarMenuProps[]
 }) {
   return (
-    <ShadcnSidebar className="w-[280px]">
-      <ShadcnSidebarHeader className="h-[94px] items-center justify-center border-b-1">
+    <ShadcnSidebar>
+      <ShadcnSidebarHeader className="items-center justify-center h-[94px] border-b-1">
         <img className="h-[42px] w-[120px]" src={imageUrl} alt="logo" />
       </ShadcnSidebarHeader>
       <ShadcnSidebarContent>
         <ShadcnSidebarMenu className="items-center">
           {menuItems.map(item => (
-            <ShadcnSidebarMenuItem key={item.title} className="w-full px-3 pt-[15px] ">
+            <ShadcnSidebarMenuItem key={item.title} className="w-full px-3 pt-[15px]">
               <ShadcnSidebarMenuButton asChild isActive={item.isActive}>
                 <a href={item.route}>
                   <item.icon className="mr-3" />
