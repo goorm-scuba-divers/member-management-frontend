@@ -24,8 +24,13 @@
       "recommended": true,
       "style": {
         "useImportType": "warn",
-        "useNamingConvention": "warn",
-        "noVar": "error"
+        "noVar": "error",
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": false
+          }
+        }
       },
       "correctness": {
         "noUnusedImports": "error",
@@ -42,7 +47,10 @@
         "noDuplicateJsxProps": "error"
       },
       "nursery": {
-        "useSortedClasses": "error"
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe"
+        }
       }
     }
   },
