@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/data-table"
-import { columns } from "@/components/columns"
+import { columns } from "@/constants/columns"
 import type { Member } from "@/models/Member"
 import { fetchMockMembers } from "@/utils/mockData"
 import { useEffect, useState } from "react"
