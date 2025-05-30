@@ -37,6 +37,7 @@ export const columns: ColumnDef<Member | unknown>[] = [
   defaultColumn({ accessorKey: "id", header: "Id" }),
   sortableColumn({ accessorKey: "userName", header: "Username" }),
   defaultColumn({ accessorKey: "nickName", header: "Nickname" }),
+  // TODO: Dropdown Column
   {
     accessorKey: "role",
     header: ({ column }) => {

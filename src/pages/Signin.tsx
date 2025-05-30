@@ -1,4 +1,4 @@
-import SignForm from "@/components/sign-form"
+import SignForm from "@/components/SignForm"
 import { routes } from "@/constants/routes.ts"
 import type { SignFormProps } from "@/types/sign.ts"
 
