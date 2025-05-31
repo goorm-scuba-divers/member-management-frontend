@@ -2,8 +2,7 @@ import { DataTable } from "@/components/DataTable"
 import SideBar, { type SideBarMenuItems } from "@/components/layout/SideBar"
 import { columns } from "@/constants/columns"
 import { routes } from "@/constants/routes"
-import { useDataTable } from "@/hooks/data-table"
-import { fetchMockMembers } from "@/utils/mockData"
+import { fetchMockMembers } from "@/utils/fetchMockMembers"
 import { SettingsIcon, UserIcon } from "lucide-react"
 
 const menuItems: SideBarMenuItems[] = [
@@ -22,11 +21,13 @@ const menuItems: SideBarMenuItems[] = [
 ]
 
 export default function Members() {
-  const table = useDataTable({ columns, fetchFn: fetchMockMembers })
-
   return (
     <SideBar menuItems={menuItems}>
-      <DataTable table={table} className="flex h-full w-full flex-col justify-center" />
+      <DataTable
+        columns={columns}
+        fetchFn={fetchMockMembers}
+        className="flex h-full w-full flex-col justify-center"
+      />
     </SideBar>
   )
 }

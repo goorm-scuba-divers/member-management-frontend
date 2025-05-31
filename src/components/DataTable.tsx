@@ -8,16 +8,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn-ui/table"
-import type { useDataTable } from "@/hooks/data-table"
+import { useDataTable } from "@/hooks/useDataTable"
 import { cn } from "@/lib/utils"
-import { flexRender } from "@tanstack/react-table"
+import { flexRender, type ColumnDef } from "@tanstack/react-table"
 
 interface DataTableProps<TData, TValue> {
-  table: ReturnType<typeof useDataTable<TData, TValue>>
+  columns: ColumnDef<TData, TValue>[]
+  fetchFn: () => Promise<TData[]>
   className?: string
 }
 
-export function DataTable<TData, TValue>({ table, className }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  fetchFn,
+  className,
+}: DataTableProps<TData, TValue>) {
+  const table = useDataTable({ columns, fetchFn })
+
   return (
     <div className={cn(className)}>
       <div className="mb-5 flex items-center justify-end">

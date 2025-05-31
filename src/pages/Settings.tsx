@@ -1,6 +1,6 @@
 import EditForm from "@/components/EditForm"
 import SideBar, { type SideBarMenuItems } from "@/components/layout/SideBar"
-import { routes } from "@/constants/routes.ts"
+import { routes } from "@/constants/routes"
 import { Settings as SettingsIcon, UserIcon } from "lucide-react"
 
 const menuItems: SideBarMenuItems[] = [

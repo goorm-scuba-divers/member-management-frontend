@@ -5,7 +5,7 @@ import Signin from "@/pages/Signin"
 import Signup from "@/pages/Signup"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
-import { routes } from "@/constants/routes.ts"
+import { routes } from "@/constants/routes"
 
 function App() {
   return (

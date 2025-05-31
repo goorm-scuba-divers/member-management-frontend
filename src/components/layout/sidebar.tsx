@@ -8,9 +8,9 @@ import {
   SidebarMenuItem as ShadcnSidebarMenuItem,
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
-import type { Route } from "@/constants/routes"
 import { HEADER_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
 import type { LucideIcon } from "lucide-react"
+import type { Route } from "@/constants/routes"
 import type { CSSProperties, ReactNode } from "react"
 
 export type SideBarMenuItems = {

@@ -1,3 +1,5 @@
+export type Route = (typeof routes)[keyof typeof routes]
+
 export const routes = {
   home: "/",
   signup: "/signup",
@@ -5,5 +7,3 @@ export const routes = {
   members: "/members",
   settings: "/settings",
 } as const
-
-export type Route = (typeof routes)[keyof typeof routes]
