@@ -56,6 +56,7 @@ const RAW_RUNTIME_STATE =
           ["tw-animate-css", "npm:1.3.0"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["vite", "virtual:6a03d5288579000522aabd62cc69e2b40306b3f4bcc46f9ece63d85a9badbc483f17a3954888aac8cb0258dc9c37a3222784458b9247ccb1aa3bb8f1f16104ca#npm:6.3.5"],\
+          ["zod", "npm:3.25.46"],\
           ["zustand", "virtual:6a03d5288579000522aabd62cc69e2b40306b3f4bcc46f9ece63d85a9badbc483f17a3954888aac8cb0258dc9c37a3222784458b9247ccb1aa3bb8f1f16104ca#npm:5.0.5"]\
         ],\
         "linkType": "SOFT"\
@@ -3061,6 +3062,7 @@ const RAW_RUNTIME_STATE =
           ["tw-animate-css", "npm:1.3.0"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["vite", "virtual:6a03d5288579000522aabd62cc69e2b40306b3f4bcc46f9ece63d85a9badbc483f17a3954888aac8cb0258dc9c37a3222784458b9247ccb1aa3bb8f1f16104ca#npm:6.3.5"],\
+          ["zod", "npm:3.25.46"],\
           ["zustand", "virtual:6a03d5288579000522aabd62cc69e2b40306b3f4bcc46f9ece63d85a9badbc483f17a3954888aac8cb0258dc9c37a3222784458b9247ccb1aa3bb8f1f16104ca#npm:5.0.5"]\
         ],\
         "linkType": "SOFT"\
@@ -3978,6 +3980,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/yallist-npm-5.0.0-8732dd9f1c-a499c81ce6.zip/node_modules/yallist/",\
         "packageDependencies": [\
           ["yallist", "npm:5.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["zod", [\
+      ["npm:3.25.46", {\
+        "packageLocation": "./.yarn/cache/zod-npm-3.25.46-d1d2c32c2e-2cc754a492.zip/node_modules/zod/",\
+        "packageDependencies": [\
+          ["zod", "npm:3.25.46"]\
         ],\
         "linkType": "HARD"\
       }]\
