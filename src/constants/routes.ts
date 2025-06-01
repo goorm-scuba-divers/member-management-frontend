@@ -7,3 +7,8 @@ export const routes = {
   members: "/members",
   settings: "/settings",
 } as const
+
+export interface ActionLink {
+  text: string
+  href: Route
+}
