@@ -1,6 +1,6 @@
-import SignForm from "@/components/sign-form"
-import { routes } from "@/constants/routes.ts"
-import type { SignFormProps } from "@/types/sign.ts"
+import SignForm from "@/components/SignForm"
+import { routes } from "@/constants/routes"
+import type { SignFormProps } from "@/types/sign"
 
 const signinForm: SignFormProps = {
   title: "Sign In",

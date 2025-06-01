@@ -8,35 +8,38 @@ import {
   SidebarMenuItem as ShadcnSidebarMenuItem,
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
-import type { Route } from "@/constants/routes"
+import { HEADER_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
 import type { LucideIcon } from "lucide-react"
-import * as React from "react"
+import type { Route } from "@/constants/routes"
+import type { CSSProperties, ReactNode } from "react"
 
-export type SidebarMenuItems = {
+export type SideBarMenuItems = {
   title: string
   icon: LucideIcon
   route: Route
   isActive?: boolean
 }
 
-export default function Sidebar({
+export default function SideBar({
   menuItems,
   children,
 }: {
-  menuItems: SidebarMenuItems[]
-  children: React.ReactNode
+  menuItems: SideBarMenuItems[]
+  children: ReactNode
 }) {
   return (
     <>
       <SidebarProvider
         style={
           {
-            "--sidebar-width": "23rem",
-          } as React.CSSProperties
+            "--sidebar-width": `${SIDEBAR_WIDTH_REM}`,
+          } as CSSProperties
         }
       >
         <ShadcnSidebar>
-          <ShadcnSidebarHeader className="h-[94px] items-center justify-center border-b-1">
+          <ShadcnSidebarHeader
+            className={`min-h-[${HEADER_HEIGHT_PX}] items-center justify-center border-b-1`}
+          >
             <img className="h-[42px] w-[120px]" src={imageUrl} alt="logo" />
           </ShadcnSidebarHeader>
           <ShadcnSidebarContent>
@@ -54,7 +57,7 @@ export default function Sidebar({
             </ShadcnSidebarMenu>
           </ShadcnSidebarContent>
         </ShadcnSidebar>
-        {children}
+        <main className="flex flex-1 items-center justify-center px-15">{children}</main>
       </SidebarProvider>
     </>
   )

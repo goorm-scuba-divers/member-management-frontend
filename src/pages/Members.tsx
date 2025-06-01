@@ -1,19 +1,33 @@
-import { DataTable } from "@/components/data-table"
-import { columns } from "@/components/columns"
-import type { Member } from "@/models/Member"
-import { fetchMockMembers } from "@/utils/mockData"
-import { useEffect, useState } from "react"
+import { DataTable } from "@/components/DataTable"
+import SideBar, { type SideBarMenuItems } from "@/components/layout/SideBar"
+import { columns } from "@/constants/columns"
+import { routes } from "@/constants/routes"
+import { fetchMockMembers } from "@/utils/fetchMockMembers"
+import { SettingsIcon, UserIcon } from "lucide-react"
 
-export default function DemoPage() {
-  const [data, setData] = useState<Member[]>([])
+const menuItems: SideBarMenuItems[] = [
+  {
+    title: "settings",
+    icon: SettingsIcon,
+    route: routes.settings,
+    isActive: false,
+  },
+  {
+    title: "members",
+    icon: UserIcon,
+    route: routes.members,
+    isActive: true,
+  },
+]
 
-  useEffect(() => {
-    fetchMockMembers().then(setData)
-  }, [])
-
+export default function Members() {
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-    </div>
+    <SideBar menuItems={menuItems}>
+      <DataTable
+        columns={columns}
+        fetchFn={fetchMockMembers}
+        className="flex h-full w-full flex-col justify-center"
+      />
+    </SideBar>
   )
 }
