@@ -2,7 +2,7 @@ import { DataTable } from "@/components/DataTable"
 import SideBar, { type SideBarMenuItems } from "@/components/layout/SideBar"
 import { columns } from "@/constants/columns"
 import { routes } from "@/constants/routes"
-import { fetchMockMembers } from "@/utils/fetchMockMembers"
+import { fetchMockMembers } from "@/utils/mockUtils"
 import { SettingsIcon, UserIcon } from "lucide-react"
 
 const menuItems: SideBarMenuItems[] = [
