@@ -1,7 +1,7 @@
 import SignForm from "@/components/SignForm"
 import { routes } from "@/constants/routes"
 import { authService } from "@/services/authService"
-import { SignupRequestSchema, type SignupRequest, type SignupResponse } from "@/lib/schemas"
+import { SignupRequestSchema, type SignupRequest } from "@/lib/schemas"
 import { useAuthStore } from "@/stores/authStore"
 import { ServiceError } from "@/types/errors"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -37,10 +37,8 @@ export default function Signup() {
 
   const onSubmit = async (request: SignupRequest) => {
     try {
-      const signupResponse: SignupResponse = await authService.signup(request)
-
-      // TODO: fetch member info after signup and add Role to the response
-      signin({ ...signupResponse })
+      const data = await authService.signup(request)
+      signin({ ...data })
       navigate(redirectTo, { replace: true })
     } catch (error) {
       console.error("[SIGNUP ERROR]: ", error)

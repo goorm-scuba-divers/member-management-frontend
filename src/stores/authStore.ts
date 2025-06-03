@@ -1,20 +1,13 @@
-import type { Tokens } from "@/lib/schemas"
-import type { Role } from "@/types/member"
+import type { AuthMember, Role, AuthTokens } from "@/lib/schemas"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-interface Member {
-  id?: string
-  username?: string
-  nickname: string
-}
-
 interface AuthState {
   isAuthenticated: boolean
-  tokens: Tokens | null
+  tokens: AuthTokens | null
   role: Role | null
-  member: Member | null
-  signin: (tokens: Tokens) => void
+  member: AuthMember | null
+  signin: ({ member, tokens }: { member: AuthMember; tokens: AuthTokens }) => void
   signout: () => void
 }
 
@@ -25,9 +18,8 @@ export const useAuthStore = create<AuthState>()(
       tokens: null,
       role: null,
       isAuthenticated: false,
-      signin: tokens => {
-        // TODO: fetch member info after signin and add Role to the response
-        set({ member: { nickname: "NICKNAME" }, role: "USER", tokens, isAuthenticated: true })
+      signin: ({ member, tokens }) => {
+        set({ member, role: member.role, tokens, isAuthenticated: true })
       },
       signout: () => {
         set({ member: null, role: null, tokens: null, isAuthenticated: false })
@@ -35,7 +27,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       // TODO: use a more secure storage solution in production
-      name: "auth-storage",
+      name: "auth_storage",
     }
   )
 )

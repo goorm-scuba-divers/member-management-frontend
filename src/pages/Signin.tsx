@@ -1,7 +1,7 @@
 import SignForm from "@/components/SignForm"
 import { routes } from "@/constants/routes"
 import { authService } from "@/services/authService"
-import { SigninRequestSchema, type SigninRequest, type SigninResponse } from "@/lib/schemas"
+import { SigninRequestSchema, type SigninRequest } from "@/lib/schemas"
 import { useAuthStore } from "@/stores/authStore"
 import { ServiceError } from "@/types/errors"
 import { Link, useLocation, useNavigate } from "react-router-dom"
@@ -34,13 +34,10 @@ export default function Signin() {
   })
   const { toast } = useFormErrorToast(form.formState.errors)
 
-  const onSubmit = async (data: SigninRequest) => {
+  const onSubmit = async (request: SigninRequest) => {
     try {
-      const signinResponse: SigninResponse = await authService.signin(data)
-
-      // TODO: fetch member info after sigin and add Role to the response
-      signin({ ...signinResponse })
-
+      const data = await authService.signin(request)
+      signin({ ...data })
       navigate(redirectTo, { replace: true })
     } catch (error) {
       console.error("[SIGNIN ERROR]: ", error)
