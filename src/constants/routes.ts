@@ -5,9 +5,6 @@ export const routes = {
   signin: "/signin",
   members: "/members",
   settings: "/settings",
+  forbidden: "/forbidden",
+  unauthorized: "/unauthorized",
 } as const
-
-export interface ActionLink {
-  text: string
-  href: Route
-}

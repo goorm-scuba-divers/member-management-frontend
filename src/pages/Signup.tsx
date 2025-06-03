@@ -4,7 +4,7 @@ import { authService } from "@/services/authService"
 import { SignupRequestSchema, type SignupRequest, type SignupResponse } from "@/lib/schemas"
 import { useAuthStore } from "@/stores/authStore"
 import { ServiceError } from "@/types/errors"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { Input } from "@/components/shadcn-ui/input"
 import {
@@ -17,6 +17,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFormErrorToast } from "@/hooks/useFormErrorToast"
 export default function Signup() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const from = location.state?.from?.pathname || routes.settings
+  const redirectTo = [routes.signin, routes.signup].includes(from) ? routes.settings : from
+
   const form = useForm<SignupRequest>({
     resolver: zodResolver(SignupRequestSchema),
     defaultValues: {
@@ -25,10 +31,9 @@ export default function Signup() {
       password: "",
     },
   })
+  const { toast } = useFormErrorToast(form.formState.errors)
 
   const { signin } = useAuthStore()
-  const { toast } = useFormErrorToast(form.formState.errors)
-  const navigate = useNavigate()
 
   const onSubmit = async (request: SignupRequest) => {
     try {
@@ -36,7 +41,7 @@ export default function Signup() {
 
       // TODO: fetch member info after signup and add Role to the response
       signin({ ...signupResponse })
-      navigate(routes.settings)
+      navigate(redirectTo, { replace: true })
     } catch (error) {
       console.error("[SIGNUP ERROR]: ", error)
       if (error instanceof ServiceError) toast.error({ message: error.message })

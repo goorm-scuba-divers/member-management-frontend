@@ -4,7 +4,7 @@ import { authService } from "@/services/authService"
 import { SigninRequestSchema, type SigninRequest, type SigninResponse } from "@/lib/schemas"
 import { useAuthStore } from "@/stores/authStore"
 import { ServiceError } from "@/types/errors"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { Input } from "@/components/shadcn-ui/input"
 import {
@@ -19,7 +19,11 @@ import { useFormErrorToast } from "@/hooks/useFormErrorToast"
 
 export default function Signin() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { signin } = useAuthStore()
+
+  const from = location.state?.from?.pathname || routes.settings
+  const redirectTo = [routes.signin, routes.signup].includes(from) ? routes.settings : from
 
   const form = useForm<SigninRequest>({
     resolver: zodResolver(SigninRequestSchema),
@@ -36,7 +40,8 @@ export default function Signin() {
 
       // TODO: fetch member info after sigin and add Role to the response
       signin({ ...signinResponse })
-      navigate(routes.settings)
+
+      navigate(redirectTo, { replace: true })
     } catch (error) {
       console.error("[SIGNIN ERROR]: ", error)
       if (error instanceof ServiceError) toast.error({ message: error.message })
@@ -94,7 +99,7 @@ export default function Signin() {
                 {/* TODO: Add forgot password functionality */}
                 <Link
                   to={routes.settings}
-                  className="text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
+                  className="text-primary underline-offset-4 hover:underline"
                 >
                   Forgot your password?
                 </Link>

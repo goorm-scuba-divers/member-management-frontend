@@ -9,19 +9,25 @@ import {
   SidebarFooter,
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
-import { FOOTER_HEIGHT_PX, HEADER_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
+import { SIDEBAR_SECTION_MIN_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
 import { LogOut, SettingsIcon, UserIcon } from "lucide-react"
 import { routes } from "@/constants/routes"
 import type { CSSProperties, ReactNode } from "react"
 import { useAuthStore } from "@/stores/authStore"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function SideBar({
   children,
 }: {
   children: ReactNode
 }) {
+  const navigate = useNavigate()
   const { role, signout } = useAuthStore()
+
+  const onSignout = () => {
+    signout()
+    navigate(routes.signin, { replace: true })
+  }
 
   return (
     <>
@@ -34,7 +40,7 @@ export default function SideBar({
       >
         <ShadcnSidebar>
           <ShadcnSidebarHeader
-            className={`min-h-[${HEADER_HEIGHT_PX}] items-center justify-center border-b-1`}
+            className={`${SIDEBAR_SECTION_MIN_HEIGHT_PX} items-center justify-center border-b-1`}
           >
             <img className="h-[42px] w-[120px]" src={imageUrl} alt="logo" />
           </ShadcnSidebarHeader>
@@ -60,13 +66,13 @@ export default function SideBar({
             </ShadcnSidebarMenu>
           </ShadcnSidebarContent>
           <SidebarFooter
-            className={`min-h-[${FOOTER_HEIGHT_PX}] items-center justify-center border-t-1`}
+            className={`${SIDEBAR_SECTION_MIN_HEIGHT_PX} items-center justify-center border-t-1`}
           >
-            <ShadcnSidebarMenu className="mb-5 items-center">
+            <ShadcnSidebarMenu className="items-center">
               <ShadcnSidebarMenuItem className="w-full p-4">
                 <ShadcnSidebarMenuButton
                   isActive={false}
-                  onClick={signout}
+                  onClick={onSignout}
                   className="cursor-pointer"
                 >
                   <LogOut className="mr-3" />
