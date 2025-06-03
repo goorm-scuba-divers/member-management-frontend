@@ -10,24 +10,19 @@ import {
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
 import { FOOTER_HEIGHT_PX, HEADER_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
-import { LogOut, type LucideIcon } from "lucide-react"
-import type { Route } from "@/constants/routes"
+import { LogOut, SettingsIcon, UserIcon } from "lucide-react"
+import { routes } from "@/constants/routes"
 import type { CSSProperties, ReactNode } from "react"
-
-export type SideBarMenuItems = {
-  title: string
-  icon: LucideIcon
-  route: Route
-  isActive?: boolean
-}
+import { useAuthStore } from "@/stores/authStore"
+import { Link } from "react-router-dom"
 
 export default function SideBar({
-  menuItems,
   children,
 }: {
-  menuItems: SideBarMenuItems[]
   children: ReactNode
 }) {
+  const { role, signout } = useAuthStore()
+
   return (
     <>
       <SidebarProvider
@@ -45,28 +40,37 @@ export default function SideBar({
           </ShadcnSidebarHeader>
           <ShadcnSidebarContent>
             <ShadcnSidebarMenu className="items-center">
-              {menuItems.map(item => (
-                <ShadcnSidebarMenuItem key={item.title} className="w-full px-3 pt-[15px]">
-                  <ShadcnSidebarMenuButton asChild isActive={item.isActive}>
-                    <a href={item.route}>
-                      <item.icon className="mr-3" />
-                      <span className="capitalize">{item.title}</span>
-                    </a>
+              <ShadcnSidebarMenuItem className="flex w-full flex-col gap-5 p-4">
+                <ShadcnSidebarMenuButton asChild isActive={false}>
+                  <Link to={routes.settings}>
+                    <SettingsIcon className="mr-3" />
+                    <span className="capitalize">settings</span>
+                  </Link>
+                </ShadcnSidebarMenuButton>
+
+                {role === "ADMIN" && (
+                  <ShadcnSidebarMenuButton asChild isActive={false}>
+                    <Link to={routes.members}>
+                      <UserIcon className="mr-3" />
+                      <span className="capitalize">members</span>
+                    </Link>
                   </ShadcnSidebarMenuButton>
-                </ShadcnSidebarMenuItem>
-              ))}
+                )}
+              </ShadcnSidebarMenuItem>
             </ShadcnSidebarMenu>
           </ShadcnSidebarContent>
           <SidebarFooter
             className={`min-h-[${FOOTER_HEIGHT_PX}] items-center justify-center border-t-1`}
           >
             <ShadcnSidebarMenu className="mb-5 items-center">
-              <ShadcnSidebarMenuItem className="w-full px-3 pt-[15px]">
-                <ShadcnSidebarMenuButton asChild isActive={false}>
-                  <a href={"/signout"}>
-                    <LogOut className="mr-3" />
-                    <span className="capitalize">{"signout"}</span>
-                  </a>
+              <ShadcnSidebarMenuItem className="w-full p-4">
+                <ShadcnSidebarMenuButton
+                  isActive={false}
+                  onClick={signout}
+                  className="cursor-pointer"
+                >
+                  <LogOut className="mr-3" />
+                  <span className="capitalize">signout</span>
                 </ShadcnSidebarMenuButton>
               </ShadcnSidebarMenuItem>
             </ShadcnSidebarMenu>
