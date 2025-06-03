@@ -17,20 +17,22 @@ export const AuthMemberSchema = z.object({
 
 // Request Schemas
 export const SignupRequestSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  nickname: z.string().min(1, "Nickname is required"),
+  username: z.string().min(1, "Username is required").trim(),
+  nickname: z.string().min(1, "Nickname is required").trim(),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
-    .max(20, "Password must be at most 20 characters long"),
+    .max(20, "Password must be at most 20 characters long")
+    .trim(),
 })
 
 export const SigninRequestSchema = z.object({
-  username: z.string().min(1, "Username is required"),
+  username: z.string().min(1, "Username is required").trim(),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
-    .max(20, "Password must be at most 20 characters long"),
+    .max(20, "Password must be at most 20 characters long")
+    .trim(),
 })
 
 // Response Schemas
