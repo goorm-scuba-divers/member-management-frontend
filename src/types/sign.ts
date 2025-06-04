@@ -1,4 +1,4 @@
-import type { Route } from "@/constants/routes.ts"
+import type { Route } from "@/constants/routes"
 import type { HTMLInputTypeAttribute } from "react"
 
 type Link = {

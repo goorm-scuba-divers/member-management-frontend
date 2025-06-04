@@ -6,37 +6,41 @@ import {
   SidebarMenu as ShadcnSidebarMenu,
   SidebarMenuButton as ShadcnSidebarMenuButton,
   SidebarMenuItem as ShadcnSidebarMenuItem,
+  SidebarFooter,
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
+import { FOOTER_HEIGHT_PX, HEADER_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
+import { LogOut, type LucideIcon } from "lucide-react"
 import type { Route } from "@/constants/routes"
-import type { LucideIcon } from "lucide-react"
-import * as React from "react"
+import type { CSSProperties, ReactNode } from "react"
 
-export type SidebarMenuItems = {
+export type SideBarMenuItems = {
   title: string
   icon: LucideIcon
   route: Route
   isActive?: boolean
 }
 
-export default function Sidebar({
+export default function SideBar({
   menuItems,
   children,
 }: {
-  menuItems: SidebarMenuItems[]
-  children: React.ReactNode
+  menuItems: SideBarMenuItems[]
+  children: ReactNode
 }) {
   return (
     <>
       <SidebarProvider
         style={
           {
-            "--sidebar-width": "23rem",
-          } as React.CSSProperties
+            "--sidebar-width": `${SIDEBAR_WIDTH_REM}`,
+          } as CSSProperties
         }
       >
         <ShadcnSidebar>
-          <ShadcnSidebarHeader className="h-[94px] items-center justify-center border-b-1">
+          <ShadcnSidebarHeader
+            className={`min-h-[${HEADER_HEIGHT_PX}] items-center justify-center border-b-1`}
+          >
             <img className="h-[42px] w-[120px]" src={imageUrl} alt="logo" />
           </ShadcnSidebarHeader>
           <ShadcnSidebarContent>
@@ -53,8 +57,22 @@ export default function Sidebar({
               ))}
             </ShadcnSidebarMenu>
           </ShadcnSidebarContent>
+          <SidebarFooter
+            className={`min-h-[${FOOTER_HEIGHT_PX}] items-center justify-center border-t-1`}
+          >
+            <ShadcnSidebarMenu className="mb-5 items-center">
+              <ShadcnSidebarMenuItem className="w-full px-3 pt-[15px]">
+                <ShadcnSidebarMenuButton asChild isActive={false}>
+                  <a href={"/signout"}>
+                    <LogOut className="mr-3" />
+                    <span className="capitalize">{"signout"}</span>
+                  </a>
+                </ShadcnSidebarMenuButton>
+              </ShadcnSidebarMenuItem>
+            </ShadcnSidebarMenu>
+          </SidebarFooter>
         </ShadcnSidebar>
-        {children}
+        <main className="flex flex-1 items-center justify-center px-15">{children}</main>
       </SidebarProvider>
     </>
   )

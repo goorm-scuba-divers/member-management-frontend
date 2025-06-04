@@ -1,4 +1,3 @@
-import DeleteAccountSection from "@/components/delete-dialog"
 import { Button } from "@/components/shadcn-ui/button"
 import { Input } from "@/components/shadcn-ui/input"
 import { Separator } from "@/components/shadcn-ui/separator"
@@ -71,7 +70,9 @@ export default function EditForm() {
             Once deleted, the data cannot be recovered.
           </p>
           <div className="flex justify-end">
-            <DeleteAccountSection />
+            <Button type="submit" className="cursor-pointer" variant="destructive">
+              Delete Your Account
+            </Button>
           </div>
         </div>
       </div>
