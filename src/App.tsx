@@ -4,10 +4,11 @@ import Signin from "@/pages/Signin"
 import Signup from "@/pages/Signup"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import "./App.css"
-import { ToastProvider } from "@/context/ToastContext"
+import { Toaster } from "@/components/shadcn-ui/sonner"
 import { routes } from "@/constants/routes"
-import { GuestRoute, AuthenticatedRoute, AdminRoute } from "@/routes/ProtectedRoutes"
-import { NotFound, Forbidden, Unauthorized } from "@/pages/ErrorPage"
+import { ToastProvider } from "@/context/ToastContext"
+import { Forbidden, NotFound, Unauthorized } from "@/pages/ErrorPage"
+import { AdminRoute, AuthenticatedRoute, GuestRoute } from "@/routes/ProtectedRoutes"
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </ToastProvider>
   )
 }

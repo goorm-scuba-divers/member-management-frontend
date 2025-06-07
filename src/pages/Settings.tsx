@@ -4,7 +4,7 @@ import SideBar from "@/components/layout/SideBar"
 export default function Settings() {
   return (
     <SideBar>
-      <EditForm className="flex h-full w-4/6 flex-col justify-center" />
+      <EditForm className="w-4/6" />
     </SideBar>
   )
 }

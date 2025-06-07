@@ -1,10 +1,10 @@
 import { Button } from "@/components/shadcn-ui/button"
 import { Form } from "@/components/shadcn-ui/form"
 import { Separator } from "@/components/shadcn-ui/separator"
-import { Toaster } from "@/components/shadcn-ui/sonner"
 import type { FormEvent, ReactNode } from "react"
-import type { UseFormReturn, FieldValues } from "react-hook-form"
+import type { FieldValues, UseFormReturn } from "react-hook-form"
 import { Link } from "react-router-dom"
+
 interface SignFormHeaderProps {
   title: string
   description: string
@@ -35,9 +35,6 @@ export default function SignForm<T extends FieldValues>({
 }: SignFormProps<T>) {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      {/* TOASTER */}
-      <Toaster />
-
       <div className="flex flex-col gap-6">
         {/* HEADER */}
         <div className="flex flex-col gap-6">
@@ -70,7 +67,10 @@ export default function SignForm<T extends FieldValues>({
         <div className="text-center text-muted-foreground text-xs">
           {footer.description}{" "}
           {footer.actionLink && (
-            <Link to={footer.actionLink.href} className="text-primary underline-offset-4 hover:underline">
+            <Link
+              to={footer.actionLink.href}
+              className="text-primary underline-offset-4 hover:underline"
+            >
               {footer.actionLink.text}
             </Link>
           )}

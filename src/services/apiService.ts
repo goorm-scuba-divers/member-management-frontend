@@ -6,12 +6,13 @@ export const apiService = axios.create({
     accept: "*/*",
     contentType: "application/json",
   },
+  withCredentials: true,
 })
 
 apiService.interceptors.response.use(
   response => response,
   error => {
-    console.error("[AXIOS INTERCEPTOR ERROR]: ", error.response)
+    console.error("[API ERROR]: ", error.response?.data || error.message)
     return Promise.reject(error)
   }
 )

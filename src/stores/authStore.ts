@@ -1,32 +1,41 @@
-import type { AuthMember, Role, AuthTokens } from "@/lib/schemas"
+import type { AuthMember } from "@/lib/schemas/auth"
+import type { Role } from "@/lib/schemas/member"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
 interface AuthState {
+  // State
   isAuthenticated: boolean
-  tokens: AuthTokens | null
-  role: Role | null
   member: AuthMember | null
-  signin: ({ member, tokens }: { member: AuthMember; tokens: AuthTokens }) => void
+  role: Role | null
+
+  // Actions
+  signin: (member: AuthMember) => void
   signout: () => void
+  updateMember: (member: Partial<AuthMember>) => void
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     set => ({
       member: null,
-      tokens: null,
       role: null,
       isAuthenticated: false,
-      signin: ({ member, tokens }) => {
-        set({ member, role: member.role, tokens, isAuthenticated: true })
+      signin: member => {
+        set({ member, role: member.role, isAuthenticated: true })
       },
       signout: () => {
-        set({ member: null, role: null, tokens: null, isAuthenticated: false })
+        set({ member: null, role: null, isAuthenticated: false })
+      },
+      updateMember: (updates: Partial<AuthMember>) => {
+        set(previous => ({
+          ...previous,
+          member: { ...(previous.member as AuthMember), ...updates },
+          role: updates.role ?? (previous.role as Role),
+        }))
       },
     }),
     {
-      // TODO: use a more secure storage solution in production
       name: "auth_storage",
     }
   )

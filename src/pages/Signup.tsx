@@ -1,27 +1,26 @@
 import SignForm from "@/components/SignForm"
-import { routes } from "@/constants/routes"
-import { authService } from "@/services/authService"
-import { SignupRequestSchema, type SignupRequest } from "@/lib/schemas"
-import { useAuthStore } from "@/stores/authStore"
-import { ServiceError } from "@/types/errors"
-import { useLocation, useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { Input } from "@/components/shadcn-ui/input"
 import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/shadcn-ui/form"
+import { Input } from "@/components/shadcn-ui/input"
+import { routes } from "@/constants/routes"
+import { useToast } from "@/context/ToastContext"
+import { type SignupRequest, SignupRequestSchema } from "@/lib/schemas/auth"
+import { authService } from "@/services/authService"
+import { useAuthStore } from "@/stores/authStore"
+import { handleError } from "@/utils/errors"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useFormErrorToast } from "@/hooks/useFormErrorToast"
-export default function Signup() {
-  const navigate = useNavigate()
-  const location = useLocation()
+import { useForm } from "react-hook-form"
+import { useLocation, useNavigate } from "react-router-dom"
 
-  const from = location.state?.from?.pathname || routes.settings
-  const redirectTo = [routes.signin, routes.signup].includes(from) ? routes.settings : from
+export default function Signup() {
+  const { signin } = useAuthStore()
+  const { toast } = useToast()
 
   const form = useForm<SignupRequest>({
     resolver: zodResolver(SignupRequestSchema),
@@ -31,18 +30,21 @@ export default function Signup() {
       password: "",
     },
   })
-  const { toast } = useFormErrorToast(form.formState.errors)
-
-  const { signin } = useAuthStore()
 
   const onSubmit = async (request: SignupRequest) => {
     try {
       const data = await authService.signup(request)
       signin({ ...data })
+
+      const navigate = useNavigate()
+      const location = useLocation()
+      const from = location.state?.from?.pathname || routes.settings
+      const redirectTo = [routes.signin, routes.signup].includes(from) ? routes.settings : from
+
       navigate(redirectTo, { replace: true })
     } catch (error) {
-      console.error("[SIGNUP ERROR]: ", error)
-      if (error instanceof ServiceError) toast.error({ message: error.message })
+      const message = handleError(error)
+      toast.error({ message })
     }
   }
 
@@ -69,12 +71,13 @@ export default function Signup() {
           <FormItem className="grid gap-2">
             <div className="flex justify-between">
               <FormLabel htmlFor="username" className="capitalize">
-                {"username"}
+                "username"
               </FormLabel>
             </div>
             <FormControl>
               <Input placeholder="Enter your username" className="py-6" {...field} />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -100,6 +103,7 @@ export default function Signup() {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -117,6 +121,7 @@ export default function Signup() {
             <FormControl>
               <Input placeholder="Enter your nickname" className="py-6" {...field} />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
