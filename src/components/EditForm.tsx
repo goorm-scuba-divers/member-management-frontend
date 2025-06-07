@@ -1,3 +1,4 @@
+import ConfirmDialog from "@/components/ConfirmDialog"
 import { Button } from "@/components/shadcn-ui/button"
 import {
   Form,
@@ -193,9 +194,20 @@ export default function EditForm({ className }: { className?: string }) {
         <div className="font-bold text-destructive text-xl">Delete Account</div>
         <p className="text-muted-foreground text-sm">Once deleted, the data cannot be recovered.</p>
         <div className="flex justify-end">
-          <Button type="button" className="cursor-pointer" variant="destructive">
-            Delete Your Account
-          </Button>
+          {/* TODO: 비밀번호 검증 이후 탈퇴 처리가 자연스러워보임 */}
+          <ConfirmDialog
+            trigger={
+              <Button type="submit" className="cursor-pointer" variant="destructive">
+                Delete Your Account
+              </Button>
+            }
+            title="Are you absolutely sure?"
+            description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
+            confirmLabel="Delete"
+            cancelLabel="Cancel"
+            variant="destructive"
+            onConfirm={onDelete}
+          />
         </div>
       </div>
     </div>
