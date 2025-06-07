@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/shadcn-ui/checkbox"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { createTextColumn, createFilterableColumn, createSortableColumn } from "@/lib/table"
-import { ROLES, type Member } from "@/types/member"
+import { ROLES, type Member } from "@/lib/schemas/member"
 
 const selectColumn: ColumnDef<Member> = {
   id: "select",
@@ -27,8 +27,8 @@ const selectColumn: ColumnDef<Member> = {
 export const columns: ColumnDef<Member>[] = [
   selectColumn,
   createTextColumn({ accessorKey: "id", header: "Id" }),
-  createSortableColumn({ accessorKey: "userName", header: "Username" }),
-  createTextColumn({ accessorKey: "nickName", header: "Nickname" }),
+  createSortableColumn({ accessorKey: "username", header: "Username" }),
+  createTextColumn({ accessorKey: "nickname", header: "Nickname" }),
   createFilterableColumn({
     accessorKey: "role",
     header: "Role",
