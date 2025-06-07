@@ -1,5 +1,5 @@
 {
-  "language_servers": ["vtsls", "biome"],
+  "language_servers": ["vtsls", "biome", "..."],
   "formatter": {
     "language_server": {
       "name": "biome"
