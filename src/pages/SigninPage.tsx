@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/shadcn-ui/input"
 import { routes } from "@/constants/routes"
 import { useToast } from "@/context/ToastContext"
-import { type SigninRequest, SigninRequestSchema } from "@/lib/schemas/auth"
+import { type SigninRequest, signinSchema } from "@/lib/schemas/auth"
 import { authService } from "@/services/authService"
 import { useAuthStore } from "@/stores/authStore"
 import { handleError } from "@/utils/errors"
@@ -18,7 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-export default function Signin() {
+export default function SigninPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -26,7 +26,7 @@ export default function Signin() {
   const { toast } = useToast()
 
   const form = useForm<SigninRequest>({
-    resolver: zodResolver(SigninRequestSchema),
+    resolver: zodResolver(signinSchema),
     defaultValues: {
       username: "",
       password: "",

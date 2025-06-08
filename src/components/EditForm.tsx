@@ -12,42 +12,42 @@ import {
 import { Input } from "@/components/shadcn-ui/input"
 import { Separator } from "@/components/shadcn-ui/separator"
 import { useToast } from "@/context/ToastContext"
-import { UpdateMemberFormSchema, type UpdateMemberRequest } from "@/lib/schemas/member"
+import { type EditUserRequest, editUserSchema } from "@/lib/schemas/member"
 import { cn } from "@/lib/utils"
-import { memberService } from "@/services/memberService"
+import { userService } from "@/services/userService"
 import { useAuthStore } from "@/stores/authStore"
 import { handleError } from "@/utils/errors"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
 export default function EditForm({ className }: { className?: string }) {
-  const { member, signout, updateMember } = useAuthStore()
+  const { user, signout, updateUser } = useAuthStore()
   const { toast } = useToast()
 
-  const form = useForm<UpdateMemberRequest>({
-    resolver: zodResolver(UpdateMemberFormSchema),
+  const form = useForm<EditUserRequest>({
+    resolver: zodResolver(editUserSchema),
     defaultValues: {
-      nickname: member?.nickname || "",
+      nickname: user?.nickname || "",
       currentPassword: "",
       newPassword: "",
     },
   })
 
-  const extractChangedData = (data: UpdateMemberRequest) => {
-    const changes: Partial<UpdateMemberRequest> = {}
+  const extractChangedData = (user: EditUserRequest) => {
+    const changes: Partial<EditUserRequest> = {}
 
     // TODO: Waiting for the backend to support nickname updates
     // if (form.formState.dirtyFields.nickname) {
     //   changes.nickname = data.nickname
     // }
-    changes.nickname = data.nickname
+    changes.nickname = user.nickname
 
     if (form.formState.dirtyFields.currentPassword) {
-      changes.currentPassword = data.currentPassword
+      changes.currentPassword = user.currentPassword
     }
 
     if (form.formState.dirtyFields.newPassword) {
-      changes.newPassword = data.newPassword
+      changes.newPassword = user.newPassword
     }
 
     // Check if there are any actual changes
@@ -58,11 +58,11 @@ export default function EditForm({ className }: { className?: string }) {
     return changes
   }
 
-  const onUpdate = async (data: UpdateMemberRequest) => {
+  const onUpdate = async (user: EditUser) => {
     try {
-      const changedData = extractChangedData(data)
+      const changedData = extractChangedData(user)
 
-      await memberService.update(changedData)
+      await userService.update(changedData)
 
       if (form.formState.dirtyFields.newPassword) {
         toast.success({
@@ -74,11 +74,11 @@ export default function EditForm({ className }: { className?: string }) {
       }
 
       if (form.formState.dirtyFields.nickname) {
-        updateMember({ nickname: changedData.nickname })
+        updateUser({ nickname: changedData.nickname })
         toast.success({ message: "Profile updated successfully!" })
 
         form.reset({
-          nickname: changedData.nickname || member?.nickname || "",
+          nickname: changedData.nickname || user?.nickname || "",
           currentPassword: "",
           newPassword: "",
         })
@@ -91,7 +91,7 @@ export default function EditForm({ className }: { className?: string }) {
 
   const onDelete = async () => {
     try {
-      await memberService.delete()
+      await userService.delete()
       toast.success({ message: "Account deleted successfully!" })
       signout()
     } catch (error) {
@@ -126,7 +126,7 @@ export default function EditForm({ className }: { className?: string }) {
                     <Input
                       id="nickname"
                       type="text"
-                      placeholder={member?.nickname || "Set your nickname"}
+                      placeholder={user?.nickname || "Set your nickname"}
                       className="py-5"
                       {...field}
                     />

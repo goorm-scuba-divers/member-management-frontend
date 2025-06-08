@@ -1,29 +1,27 @@
 import {
-  type SignupRequest,
-  type SignupResponse,
-  SignupResponseSchema,
+  type AuthUser,
   type SigninRequest,
-  type SigninResponse,
-  SigninResponseSchema,
+  type SignupRequest,
+  authUserSchema,
 } from "@/lib/schemas/auth"
 import { apiService } from "@/services/apiService"
 import type { AxiosResponse } from "axios"
 
 export const authService = {
   signup: async (request: SignupRequest) => {
-    const response = await apiService.post<SignupRequest, AxiosResponse<SignupResponse>>(
+    const response = await apiService.post<SignupRequest, AxiosResponse<AuthUser>>(
       "/auth/sign-up",
       request
     )
-    return SignupResponseSchema.parse(response.data)
+    return authUserSchema.parse(response.data)
   },
 
   signin: async (request: SigninRequest) => {
-    const response = await apiService.post<SigninRequest, AxiosResponse<SigninResponse>>(
+    const response = await apiService.post<SigninRequest, AxiosResponse<AuthUser>>(
       "/auth/sign-in",
       request
     )
-    return SigninResponseSchema.parse(response.data)
+    return authUserSchema.parse(response.data)
   },
 
   signout: async () => {

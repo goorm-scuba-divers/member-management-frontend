@@ -3,7 +3,7 @@ import SideBar from "@/components/layout/SideBar"
 import { columns } from "@/constants/columns"
 import { fetchMockMembers } from "@/utils/mockUtils"
 
-export default function Members() {
+export default function MembersPage() {
   return (
     <SideBar>
       <DataTable
