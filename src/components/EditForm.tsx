@@ -58,7 +58,7 @@ export default function EditForm({ className }: { className?: string }) {
     return changes
   }
 
-  const onSubmit = async (data: UpdateMemberRequest) => {
+  const onUpdate = async (data: UpdateMemberRequest) => {
     try {
       const changedData = extractChangedData(data)
 
@@ -89,6 +89,17 @@ export default function EditForm({ className }: { className?: string }) {
     }
   }
 
+  const onDelete = async () => {
+    try {
+      await memberService.delete()
+      toast.success({ message: "Account deleted successfully!" })
+      signout()
+    } catch (error) {
+      const message = handleError(error)
+      toast.error({ message })
+    }
+  }
+
   return (
     <div className={cn("flex h-full flex-col justify-center gap-8", className)}>
       <div className="flex flex-col gap-2">
@@ -101,7 +112,7 @@ export default function EditForm({ className }: { className?: string }) {
       <Separator />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onUpdate)}>
           <div className="flex flex-col gap-7">
             <FormField
               control={form.control}

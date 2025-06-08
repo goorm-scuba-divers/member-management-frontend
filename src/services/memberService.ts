@@ -6,4 +6,7 @@ export const memberService = {
   update: async (request: Partial<UpdateMemberRequest>) => {
     await apiService.put<Partial<UpdateMemberRequest>, AxiosResponse>("/members", request)
   },
+  delete: async () => {
+    await apiService.delete<void>("/members")
+  },
 }
