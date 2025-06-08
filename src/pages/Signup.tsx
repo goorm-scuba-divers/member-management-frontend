@@ -71,7 +71,7 @@ export default function Signup() {
           <FormItem className="grid gap-2">
             <div className="flex justify-between">
               <FormLabel htmlFor="username" className="capitalize">
-                "username"
+                username
               </FormLabel>
             </div>
             <FormControl>
