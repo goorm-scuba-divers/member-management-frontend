@@ -35,11 +35,11 @@ export const columns: ColumnDef<Member>[] = [
     options: ROLES,
   }),
   createSortableColumn({
-    accessorKey: "createDate",
+    accessorKey: "createdAt",
     header: "Create Date",
   }),
   createSortableColumn({
-    accessorKey: "modifiedDate",
+    accessorKey: "modifiedAt",
     header: "Modified Date",
   }),
 ] as const

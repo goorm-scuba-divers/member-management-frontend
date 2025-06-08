@@ -17,12 +17,35 @@ export const PasswordSchema = z
 
 // ===== ENTITY SCHEMAS =====
 export const MemberSchema = z.object({
-  id: z.number().int().positive(),
+  id: z.number().int().nonnegative(),
   username: UsernameSchema,
   nickname: NicknameSchema,
   role: RoleSchema,
-  createDate: z.date(),
-  modifiedDate: z.date().optional(),
+  createdAt: z
+    .string()
+    .datetime()
+    .transform(val => new Date(val)),
+  modifiedAt: z
+    .string()
+    .datetime()
+    .transform(val => new Date(val))
+    .optional(),
+})
+
+export const FindMemberSchema = z.object({
+  searchValue: z.string().trim(),
+  role: RoleSchema.optional(), // 보내지 않으면 모든 역할 조회
+  sortBy: z.enum(["CREATED_AT", "MODIFIED_AT", "USERNAME"]).optional(), // 기본값 CREATED_AT
+  sortDirection: z.enum(["ASC", "DESC"]).optional(),
+  page: z.number().int().nonnegative().default(0),
+  size: z.number().int().positive().default(10),
+})
+
+export const FindMemberPageSchema = z.object({
+  content: z.array(MemberSchema),
+  page: z.number().int().nonnegative(),
+  size: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
 })
 
 export const UpdateMemberFormSchema = z
@@ -63,4 +86,10 @@ export const UpdateMemberFormSchema = z
 // ===== TYPES =====
 export type Role = z.infer<typeof RoleSchema>
 export type Member = z.infer<typeof MemberSchema>
+
+// ===== REQUEST TYPES =====
+export type FindMemberRequest = z.infer<typeof FindMemberSchema>
 export type UpdateMemberRequest = z.infer<typeof UpdateMemberFormSchema>
+
+// ===== RESPONSE TYPES =====
+export type FindMemberPageResponse = z.infer<typeof FindMemberPageSchema>
