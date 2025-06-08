@@ -19,6 +19,9 @@ import { useForm } from "react-hook-form"
 import { useLocation, useNavigate } from "react-router-dom"
 
 export default function Signup() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const { signin } = useAuthStore()
   const { toast } = useToast()
 
@@ -36,8 +39,6 @@ export default function Signup() {
       const data = await authService.signup(request)
       signin({ ...data })
 
-      const navigate = useNavigate()
-      const location = useLocation()
       const from = location.state?.from?.pathname || routes.settings
       const redirectTo = [routes.signin, routes.signup].includes(from) ? routes.settings : from
 
