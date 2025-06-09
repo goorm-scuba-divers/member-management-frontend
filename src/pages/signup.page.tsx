@@ -1,4 +1,3 @@
-import SignForm from "@/components/SignForm"
 import {
   FormControl,
   FormDescription,
@@ -8,34 +7,36 @@ import {
   FormMessage,
 } from "@/components/shadcn-ui/form"
 import { Input } from "@/components/shadcn-ui/input"
-import { routes } from "@/constants/routes"
-import { useToast } from "@/context/ToastContext"
-import { type SigninRequest, signinSchema } from "@/lib/schemas/auth"
-import { authService } from "@/services/authService"
-import { useAuthStore } from "@/stores/authStore"
+import SignForm from "@/components/sign-form.component"
+import { routes } from "@/constants/routes.constant"
+import { useToast } from "@/contexts/toast.context"
+import { type SignupRequest, signupSchema } from "@/lib/schemas"
+import { authService } from "@/services/auth.service"
+import { useAuthStore } from "@/store/auth.store"
 import { handleError } from "@/utils/errors"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
-export default function SigninPage() {
+export default function SignupPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
   const { signin } = useAuthStore()
   const { toast } = useToast()
 
-  const form = useForm<SigninRequest>({
-    resolver: zodResolver(signinSchema),
+  const form = useForm<SignupRequest>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       username: "",
+      nickname: "",
       password: "",
     },
   })
 
-  const onSubmit = async (request: SigninRequest) => {
+  const handleSubmit = async (request: SignupRequest) => {
     try {
-      const data = await authService.signin(request)
+      const data = await authService.signup(request)
       signin({ ...data })
 
       const from = location.state?.from?.pathname || routes.settings
@@ -51,16 +52,16 @@ export default function SigninPage() {
   return (
     <SignForm
       form={form}
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={form.handleSubmit(handleSubmit)}
       header={{
-        title: "Sign In",
-        description: "Enter your username and password to sign in!",
+        title: "Sign Up",
+        description: "Enter your information to sign up!",
       }}
       footer={{
-        description: "Don't have an account?",
+        description: "Already have an account?",
         actionLink: {
-          text: "Sign up",
-          href: routes.signup,
+          text: "Sign in",
+          href: routes.signin,
         },
       }}
     >
@@ -69,18 +70,13 @@ export default function SigninPage() {
         name="username"
         render={({ field }) => (
           <FormItem className="grid gap-2">
-            <FormLabel htmlFor="username" className="capitalize">
-              username
-            </FormLabel>
+            <div className="flex justify-between">
+              <FormLabel htmlFor="username" className="capitalize">
+                username
+              </FormLabel>
+            </div>
             <FormControl>
-              <Input
-                id="username"
-                type="text"
-                placeholder="Enter your username"
-                className="py-6"
-                disabled={form.formState.isSubmitting}
-                {...field}
-              />
+              <Input placeholder="Enter your username" className="py-6" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -94,27 +90,37 @@ export default function SigninPage() {
           <FormItem className="grid gap-2">
             <div className="flex justify-between">
               <FormLabel htmlFor="password" className="capitalize">
-                password
+                {"password"}
               </FormLabel>
-              <FormDescription className="text-xs">
-                {/* TODO: Add forgot password functionality */}
-                <Link
-                  to={routes.settings}
-                  className="text-primary underline-offset-4 hover:underline"
-                >
-                  Forgot your password?
-                </Link>
-              </FormDescription>
             </div>
+            <FormDescription className="text-xs">
+              Must be at least 8 characters long, including both letters and numbers.
+            </FormDescription>
             <FormControl>
               <Input
-                id="password"
                 type="password"
                 placeholder="Enter your password"
                 className="py-6"
-                disabled={form.formState.isSubmitting}
                 {...field}
               />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={form.control}
+        name="nickname"
+        render={({ field }) => (
+          <FormItem className="grid gap-2">
+            <div className="flex justify-between">
+              <FormLabel htmlFor="nickname" className="capitalize">
+                {"nickname"}
+              </FormLabel>
+            </div>
+            <FormControl>
+              <Input placeholder="Enter your nickname" className="py-6" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

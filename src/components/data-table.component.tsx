@@ -1,4 +1,3 @@
-import SearchBar from "@/components/layout/SearchBar"
 import { Button } from "@/components/shadcn-ui/button"
 import {
   Table,
@@ -9,8 +8,9 @@ import {
   TableRow,
 } from "@/components/shadcn-ui/table"
 import { useDataTable } from "@/hooks/useDataTable"
+import SearchBar from "@/layouts/search-bar.layout"
 import { cn } from "@/lib/utils"
-import { flexRender, type ColumnDef } from "@tanstack/react-table"
+import { type ColumnDef, flexRender } from "@tanstack/react-table"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -18,7 +18,7 @@ interface DataTableProps<TData, TValue> {
   className?: string
 }
 
-export function DataTable<TData, TValue>({
+export default function DataTable<TData, TValue>({
   columns,
   fetchFn,
   className,
@@ -31,7 +31,7 @@ export function DataTable<TData, TValue>({
         <SearchBar
           placeholder="Search id or username..."
           value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-          onChange={event => table.getColumn("username")?.setFilterValue(event.target.value)}
+          handleChange={event => table.getColumn("username")?.setFilterValue(event.target.value)}
         />
       </div>
 

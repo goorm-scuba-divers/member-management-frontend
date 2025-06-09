@@ -1,4 +1,3 @@
-import ConfirmDialog from "@/components/ConfirmDialog"
 import { Button } from "@/components/shadcn-ui/button"
 import {
   Form,
@@ -11,14 +10,15 @@ import {
 } from "@/components/shadcn-ui/form"
 import { Input } from "@/components/shadcn-ui/input"
 import { Separator } from "@/components/shadcn-ui/separator"
-import { useToast } from "@/context/ToastContext"
-import { type EditUserRequest, editUserSchema } from "@/lib/schemas/member"
+import { useToast } from "@/contexts/toast.context"
+import { type EditUserRequest, editUserSchema } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
-import { userService } from "@/services/userService"
-import { useAuthStore } from "@/stores/authStore"
+import { authService, userService } from "@/services"
+import { useAuthStore } from "@/store/auth.store"
 import { handleError } from "@/utils/errors"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import ConfirmDialog from "./confirm-dialog.component"
 
 export default function EditForm({ className }: { className?: string }) {
   const { user, signout, updateUser } = useAuthStore()
@@ -33,65 +33,36 @@ export default function EditForm({ className }: { className?: string }) {
     },
   })
 
-  const extractChangedData = (user: EditUserRequest) => {
-    const changes: Partial<EditUserRequest> = {}
-
-    // TODO: Waiting for the backend to support nickname updates
-    // if (form.formState.dirtyFields.nickname) {
-    //   changes.nickname = data.nickname
-    // }
-    changes.nickname = user.nickname
-
-    if (form.formState.dirtyFields.currentPassword) {
-      changes.currentPassword = user.currentPassword
-    }
-
-    if (form.formState.dirtyFields.newPassword) {
-      changes.newPassword = user.newPassword
-    }
-
-    // Check if there are any actual changes
-    if (Object.keys(changes).length === 0) {
-      throw new Error("At least nickname or password must be updated")
-    }
-
-    return changes
-  }
-
-  const onUpdate = async (user: EditUser) => {
+  const handleUpdate = async (formData: EditUserRequest) => {
     try {
-      const changedData = extractChangedData(user)
+      const result = await userService.updateCurrentUser(formData, form.formState.dirtyFields)
 
-      await userService.update(changedData)
+      if (result.updatedFields.nickname) {
+        updateUser({ nickname: formData.nickname })
+      }
 
-      if (form.formState.dirtyFields.newPassword) {
-        toast.success({
-          message: "Password updated successfully!",
-          options: { description: "Please sign in again." },
-        })
+      if (result.requiresLogout) {
+        toast.success({ message: "Password updated successfully!" })
+        await authService.signout()
         signout()
         return
       }
 
-      if (form.formState.dirtyFields.nickname) {
-        updateUser({ nickname: changedData.nickname })
-        toast.success({ message: "Profile updated successfully!" })
-
-        form.reset({
-          nickname: changedData.nickname || user?.nickname || "",
-          currentPassword: "",
-          newPassword: "",
-        })
-      }
+      toast.success({ message: "Profile updated successfully!" })
+      form.reset({
+        nickname: formData.nickname,
+        currentPassword: "",
+        newPassword: "",
+      })
     } catch (error) {
       const message = handleError(error)
       toast.error({ message })
     }
   }
 
-  const onDelete = async () => {
+  const handleDelete = async () => {
     try {
-      await userService.delete()
+      await userService.deleteCurrentUser()
       toast.success({ message: "Account deleted successfully!" })
       signout()
     } catch (error) {
@@ -112,7 +83,7 @@ export default function EditForm({ className }: { className?: string }) {
       <Separator />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onUpdate)}>
+        <form onSubmit={form.handleSubmit(handleUpdate)}>
           <div className="flex flex-col gap-7">
             <FormField
               control={form.control}
@@ -128,6 +99,7 @@ export default function EditForm({ className }: { className?: string }) {
                       type="text"
                       placeholder={user?.nickname || "Set your nickname"}
                       className="py-5"
+                      disabled={form.formState.isSubmitting}
                       {...field}
                     />
                   </FormControl>
@@ -154,6 +126,7 @@ export default function EditForm({ className }: { className?: string }) {
                         type="password"
                         placeholder="Current Password"
                         className="py-5"
+                        disabled={form.formState.isSubmitting}
                         {...field}
                       />
                     </FormControl>
@@ -173,6 +146,7 @@ export default function EditForm({ className }: { className?: string }) {
                         type="password"
                         placeholder="New Password"
                         className="py-5"
+                        disabled={form.formState.isSubmitting}
                         {...field}
                       />
                     </FormControl>
@@ -217,7 +191,7 @@ export default function EditForm({ className }: { className?: string }) {
             confirmLabel="Delete"
             cancelLabel="Cancel"
             variant="destructive"
-            onConfirm={onDelete}
+            handleConfirm={handleDelete}
           />
         </div>
       </div>

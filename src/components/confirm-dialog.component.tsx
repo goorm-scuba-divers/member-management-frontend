@@ -20,7 +20,7 @@ type ConfirmDialogProps = {
   description?: string
   confirmLabel?: string
   cancelLabel?: string
-  onConfirm: () => void
+  handleConfirm: () => void
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
 }
 
@@ -30,7 +30,7 @@ export default function ConfirmDialog({
   description,
   confirmLabel = "confirm",
   cancelLabel = "cancel",
-  onConfirm,
+  handleConfirm,
   variant = "default",
 }: ConfirmDialogProps) {
   return (
@@ -44,7 +44,7 @@ export default function ConfirmDialog({
         <AlertDialogFooter>
           <AlertDialogCancel className="cursor-pointer">{cancelLabel}</AlertDialogCancel>
           <AlertDialogAction
-            onClick={onConfirm}
+            onClick={handleConfirm}
             className={cn(buttonVariants({ variant }), "cursor-pointer")}
           >
             {confirmLabel}

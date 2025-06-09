@@ -1,5 +1,4 @@
-import type { AuthUser } from "@/lib/schemas/auth"
-import type { Role } from "@/lib/schemas/member"
+import type { AuthUser, Role } from "@/lib/schemas"
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 

@@ -9,11 +9,14 @@ import {
   SidebarFooter,
   SidebarProvider,
 } from "@/components/shadcn-ui/sidebar"
-import { SIDEBAR_SECTION_MIN_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles"
+import { routes } from "@/constants/routes.constant"
+import { SIDEBAR_SECTION_MIN_HEIGHT_PX, SIDEBAR_WIDTH_REM } from "@/constants/styles.constant"
+import { useToast } from "@/contexts/toast.context"
+import { authService } from "@/services/auth.service"
+import { useAuthStore } from "@/store/auth.store"
+import { handleError } from "@/utils/errors"
 import { LogOut, SettingsIcon, UserIcon } from "lucide-react"
-import { routes } from "@/constants/routes"
 import type { CSSProperties, ReactNode } from "react"
-import { useAuthStore } from "@/stores/authStore"
 import { Link, useNavigate } from "react-router-dom"
 
 export default function SideBar({
@@ -22,11 +25,18 @@ export default function SideBar({
   children: ReactNode
 }) {
   const navigate = useNavigate()
+  const { toast } = useToast()
   const { role, signout } = useAuthStore()
 
-  const onSignout = () => {
-    signout()
-    navigate(routes.signin, { replace: true })
+  const handleSignout = () => {
+    try {
+      authService.signout()
+      signout()
+      navigate(routes.signin, { replace: true })
+    } catch (error) {
+      const message = handleError(error)
+      toast.error({ message })
+    }
   }
 
   return (
@@ -72,7 +82,7 @@ export default function SideBar({
               <ShadcnSidebarMenuItem className="w-full p-4">
                 <ShadcnSidebarMenuButton
                   isActive={false}
-                  onClick={onSignout}
+                  onClick={handleSignout}
                   className="cursor-pointer"
                 >
                   <LogOut className="mr-3" />

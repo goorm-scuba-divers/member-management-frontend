@@ -1,5 +1,5 @@
-import { routes } from "@/constants/routes"
-import { useAuthStore } from "@/stores/authStore"
+import { routes } from "@/constants/routes.constant"
+import { useAuthStore } from "@/store/auth.store"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 
 export function GuestRoute() {

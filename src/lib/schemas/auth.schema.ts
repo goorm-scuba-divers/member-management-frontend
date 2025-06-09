@@ -1,5 +1,5 @@
-import { nicknameSchema, passwordSchema, roleSchema, usernameSchema } from "@/lib/schemas/member"
 import { z } from "zod"
+import { nicknameSchema, passwordSchema, roleSchema, usernameSchema } from "./common.schema"
 
 // ===== ENTITY SCHEMAS =====
 export const authUserSchema = z.object({
