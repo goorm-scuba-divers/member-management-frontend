@@ -9,12 +9,13 @@ import {
 } from "@/components/shadcn-ui/table"
 import { useDataTable } from "@/hooks/useDataTable"
 import SearchBar from "@/layouts/search-bar.layout"
+import type { FindMemberRequest, MemberPageResponse } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
 import { type ColumnDef, flexRender } from "@tanstack/react-table"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  fetchFn: () => Promise<TData[]>
+  fetchFn: (params: Partial<FindMemberRequest>) => Promise<MemberPageResponse>
   className?: string
 }
 
@@ -23,15 +24,15 @@ export default function DataTable<TData, TValue>({
   fetchFn,
   className,
 }: DataTableProps<TData, TValue>) {
-  const table = useDataTable({ columns, fetchFn })
+  const { table, loading } = useDataTable({ columns, fetchFn })
 
   return (
     <div className={cn(className)}>
       <div className="mb-5 flex items-center justify-end">
         <SearchBar
           placeholder="Search id or username..."
-          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
-          handleChange={event => table.getColumn("username")?.setFilterValue(event.target.value)}
+          value={table.getState().globalFilter ?? ""}
+          handleChange={event => table.setGlobalFilter(event.target.value)}
         />
       </div>
 
@@ -70,7 +71,7 @@ export default function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={table.getAllColumns().length} className="h-24 text-center">
-                  No results.
+                  {loading ? "Loading..." : "No results."}
                 </TableCell>
               </TableRow>
             )}
@@ -80,8 +81,8 @@ export default function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-between">
         <div className="text-muted-foreground text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()} (
+          {table.getRowCount()} total members)
         </div>
 
         <div className="space-x-2">

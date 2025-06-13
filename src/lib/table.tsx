@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/shadcn-ui/dropdown-menu"
-import type { CellContext, ColumnDef, FilterFnOption } from "@tanstack/react-table"
+import type { CellContext, ColumnDef } from "@tanstack/react-table"
 import { ArrowDownUp, ChevronsUpDown } from "lucide-react"
 import type { ReactNode } from "react"
 
@@ -69,14 +69,12 @@ export const createSortableColumn = <TData, TValue>({
 interface FilterableColumnProps<TData, TValue> extends BaseColumnProps<TData> {
   options: readonly TValue[]
   cell?: (context: CellContext<TData, TValue | unknown>) => string
-  filterFn?: FilterFnOption<TData>
 }
 export const createFilterableColumn = <TData, TValue extends string>({
   accessorKey,
   header,
   cell,
   options,
-  filterFn,
 }: FilterableColumnProps<TData, TValue>): ColumnDef<TData> => {
   return {
     accessorKey,
@@ -122,11 +120,5 @@ export const createFilterableColumn = <TData, TValue extends string>({
       )
     },
     cell: cell || createDefaultCell<TData, TValue | unknown>(accessorKey),
-    filterFn:
-      filterFn ||
-      ((row, columnId, filterValue: TValue[] = []) => {
-        if (!filterValue.length) return true
-        return filterValue.includes(row.getValue<TValue>(columnId))
-      }),
   }
 }

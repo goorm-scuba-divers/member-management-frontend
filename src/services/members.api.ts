@@ -1,8 +1,4 @@
-import {
-  type FindMemberRequest,
-  type MemberPageResponse,
-  memberPageSchema,
-} from "@/lib/schemas"
+import { type FindMemberRequest, type MemberPageResponse, memberPageSchema } from "@/lib/schemas"
 import { apiClient } from "@/services"
 import type { AxiosResponse } from "axios"
 
@@ -16,9 +12,6 @@ export const membersApi = {
     >(MEMBERS_ENDPOINT, {
       params,
     })
-
     return memberPageSchema.parse(response.data)
   },
-
-
 }

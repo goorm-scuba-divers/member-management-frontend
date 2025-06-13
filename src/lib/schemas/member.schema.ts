@@ -7,13 +7,9 @@ export const memberSchema = z.object({
   username: usernameSchema,
   nickname: nicknameSchema,
   role: roleSchema,
-  createdAt: z
-    .string()
-    .datetime()
-    .transform(val => new Date(val)),
+  createdAt: z.string().transform(val => new Date(val)),
   modifiedAt: z
     .string()
-    .datetime()
     .transform(val => new Date(val))
     .optional(),
 })
@@ -24,7 +20,7 @@ export const findMemberSchema = z.object({
   sortBy: z.enum(["CREATED_AT", "MODIFIED_AT", "USERNAME"]).optional(), // 기본값 CREATED_AT
   sortDirection: z.enum(["ASC", "DESC"]).optional(),
   page: z.number().int().nonnegative().default(0),
-  size: z.number().int().positive().default(10),
+  size: z.number().int().nonnegative().default(10),
 })
 
 export const memberPageSchema = z.object({
