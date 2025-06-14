@@ -28,9 +28,9 @@ export default function SideBar({
   const { toast } = useToast()
   const { role, signout } = useAuthStore()
 
-  const handleSignout = () => {
+  const handleSignout = async () => {
     try {
-      authService.signout()
+      await authService.signout()
       signout()
       navigate(routes.signin, { replace: true })
     } catch (error) {
