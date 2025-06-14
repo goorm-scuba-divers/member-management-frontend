@@ -56,7 +56,7 @@ export const createSortableColumn = <TData, TValue>({
             aria-label={`Sort by ${header}`}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            <ArrowDownUp className="h-[14px] w-[14px] text-muted-foreground" />
+            <ArrowDownUp className="h-2 w-2 text-muted-foreground" />
           </Button>
         </div>
       )
@@ -88,27 +88,27 @@ export const createFilterableColumn = <TData, TValue extends string>({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-6 w-6 p-0">
-                <ChevronsUpDown className="h-[10px] w-[10px] text-muted-foreground" />
+                <ChevronsUpDown className="h-2 w-2 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="min-w-[6rem] p-1.5 text-sm">
               {options.map((option, index) => (
                 <div key={option}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      column.setFilterValue(
-                        selected?.includes(option)
-                          ? (selected?.filter(r => r !== option) ?? [])
-                          : [...(selected ?? []), option]
-                      )
-                    }}
-                    className="flex w-full cursor-pointer items-center gap-2 px-2 py-1.5 text-left"
-                  >
-                    <Checkbox className="size-3" checked={selected?.includes(option)} />
+                  <div className="flex w-full items-center gap-2 px-2 py-1.5 text-left">
+                    <Checkbox
+                      className="size-3 cursor-pointer"
+                      checked={Boolean(selected?.includes(option))}
+                      onCheckedChange={() => {
+                        column.setFilterValue(
+                          selected?.includes(option)
+                            ? (selected?.filter(r => r !== option) ?? [])
+                            : [...(selected ?? []), option]
+                        )
+                      }}
+                    />
                     <span className="text-muted-foreground text-xs">{option}</span>
-                  </button>
+                  </div>
                   {index < options.length - 1 && (
                     <DropdownMenuSeparator className="my-1 h-[0.5px] bg-muted" />
                   )}

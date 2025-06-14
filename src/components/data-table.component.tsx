@@ -31,8 +31,8 @@ export default function DataTable<TData, TValue>({
       <div className="mb-5 flex items-center justify-end">
         <SearchBar
           placeholder="Search id or username..."
-          value={table.getState().globalFilter ?? ""}
-          handleChange={event => table.setGlobalFilter(event.target.value)}
+          value={(table.getState().globalFilter as string) || ""}
+          onChange={table.setGlobalFilter}
         />
       </div>
 

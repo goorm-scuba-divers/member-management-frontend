@@ -16,16 +16,6 @@ let failedQueue: Array<{
   reject: (error: unknown) => void
 }> = []
 
-const redirectToLogin = () => {
-  useAuthStore.getState().signout()
-  window.location.href = "/signin"
-}
-
-/**
- * 대기 중인 요청 큐를 처리하는 함수
- *
- * @param error - 에러가 있으면 큐의 모든 요청에 에러를 전파, 없으면(null) 모든 요청을 성공 처리
- */
 const processQueue = (error: Error | null) => {
   // 큐에 있는 모든 요청 처리
   for (const request of failedQueue) {
@@ -48,7 +38,7 @@ apiClient.interceptors.response.use(
 
     // UNAUTHORIZED
     if (status === 401) {
-      redirectToLogin()
+      useAuthStore.getState().signout()
       return Promise.reject(error)
     }
 
@@ -61,20 +51,15 @@ apiClient.interceptors.response.use(
           .then(() => apiClient(originalRequest))
           .catch(err => Promise.reject(err))
       }
-
       try {
         isRefreshing = true
-
         await apiClient.post("/auth/reissue")
-
         processQueue(null)
-
         isRefreshing = false
-
         return apiClient(originalRequest)
       } catch (refreshError) {
         processQueue(refreshError as Error)
-        redirectToLogin()
+        useAuthStore.getState().signout()
         isRefreshing = false
         return Promise.reject(refreshError)
       }
