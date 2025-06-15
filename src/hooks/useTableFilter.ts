@@ -7,11 +7,12 @@ export function useTableFilter() {
   const getSingleFilterValue = useCallback(
     <T = unknown>(filterId: string): T | undefined => {
       const filter = columnFilters.find(f => f.id === filterId)
-      const values = filter?.value
-      if (Array.isArray(values)) {
-        return values.length > 0 ? values[0] : undefined
-      }
-      return values as T | undefined
+      const values = filter?.value as T[]
+      
+      // !FIXME: Role 추가 시 서버 및 클라이언트 필터링 로직 수정 필요
+      if (values?.length === 1) return values[0]
+
+      return undefined
     },
     [columnFilters]
   )
