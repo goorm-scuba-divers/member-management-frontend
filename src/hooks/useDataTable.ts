@@ -28,7 +28,7 @@ export function useDataTable<TData, TValue>({
   const { sorting, sortConfig, handleSortingChange } = useTableSort()
   const { pagination, resetToFirstPage, handlePaginationChange } = useTablePagination()
   const { columnFilter, columnFilters, setColumnFilters } = useTableFilter()
-  const { globalFilter, setGlobalFilter, debouncedGlobalFilter } = useTableGlobalFilter(350)
+  const { globalFilter, setGlobalFilter, debouncedGlobalFilter } = useTableGlobalFilter(200)
 
   const params = useMemo(
     (): Partial<FindMemberRequest> => ({
