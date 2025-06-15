@@ -29,4 +29,8 @@ export const authApi = {
   signout: async (): Promise<void> => {
     await apiClient.post(`${AUTH_ENDPOINT}/sign-out`)
   },
+
+  refresh: async (): Promise<void> => {
+    await apiClient.post(`${AUTH_ENDPOINT}/reissue`)
+  },
 }

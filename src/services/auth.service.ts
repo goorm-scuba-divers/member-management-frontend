@@ -11,4 +11,7 @@ export const authService = {
   signout: async (): Promise<void> => {
     return authApi.signout()
   },
+  refresh: async (): Promise<void> => {
+    await authApi.refresh()
+  },
 }

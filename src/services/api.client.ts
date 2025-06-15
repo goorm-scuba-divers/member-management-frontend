@@ -1,72 +1,44 @@
 import { useAuthStore } from "@/store/auth.store"
+import { useTokenRefreshStore } from "@/store/token-refresh.store"
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios"
 
+// API 클라이언트 설정
 export const apiClient = axios.create({
   baseURL: "/api",
   headers: {
     contentType: "application/json",
   },
   withCredentials: true,
+  timeout: 5000, // 모든 요청에 5초 타임아웃 적용
 })
 
-let isRefreshing = false
-
-let failedQueue: Array<{
-  resolve: (value: unknown) => void
-  reject: (error: unknown) => void
-}> = []
-
-const processQueue = (error: Error | null) => {
-  // 큐에 있는 모든 요청 처리
-  for (const request of failedQueue) {
-    if (error) {
-      request.reject(error)
-    } else {
-      request.resolve(null)
-    }
-  }
-
-  failedQueue = []
-}
-
+// 응답 인터셉터 설정
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
-    console.error("[API CLIENT ERROR]:", error)
-
     const { status } = error.response || {}
-
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
 
-    // UNAUTHORIZED
+    // 401: 인증 실패시 로그아웃
     if (status === 401) {
+      console.error("[API CLIENT]: Unauthorized access")
       useAuthStore.getState().signout()
       return Promise.reject(error)
     }
 
-    // FORBIDDEN
+    // 403: 토큰 만료시 갱신 시도
     if (status === 403 && !originalRequest._retry) {
       originalRequest._retry = true
-
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => failedQueue.push({ resolve, reject }))
-          .then(() => apiClient(originalRequest))
-          .catch(err => Promise.reject(err))
-      }
-      try {
-        isRefreshing = true
-        await apiClient.post("/auth/reissue")
-        processQueue(null)
-        isRefreshing = false
-        return apiClient(originalRequest)
-      } catch (refreshError) {
-        processQueue(refreshError as Error)
-        useAuthStore.getState().signout()
-        isRefreshing = false
-        return Promise.reject(refreshError)
-      }
+      return useTokenRefreshStore.getState().handleRefresh(originalRequest)
     }
 
+    // 기타 에러 로깅
+    console.error("[API CLIENT ERROR]:", {
+      status,
+      message: error.message,
+      url: originalRequest.url,
+      method: originalRequest.method,
+    })
     return Promise.reject(error)
   }
 )
