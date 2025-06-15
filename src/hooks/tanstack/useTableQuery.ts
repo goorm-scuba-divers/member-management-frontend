@@ -1,4 +1,6 @@
+import { useToast } from "@/contexts/toast.context"
 import type { FindMemberRequest, MemberPageResponse } from "@/lib/schemas"
+import { handleError } from "@/utils/errors"
 import { useCallback, useEffect, useState } from "react"
 
 interface DataTableError {
@@ -25,6 +27,7 @@ export function useTableQuery<TData>({ fetchFn, params }: UseTableQueryProps) {
     error: null,
     totalRowCount: 0,
   })
+  const { toast } = useToast()
 
   const fetchData = useCallback(async () => {
     setServerState(prev => ({ ...prev, loading: true, error: null }))
@@ -39,16 +42,17 @@ export function useTableQuery<TData>({ fetchFn, params }: UseTableQueryProps) {
         totalRowCount: response.total,
       })
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to fetch data"
+      const message = handleError(error)
+      toast.error({ message })
 
       setServerState(prev => ({
         ...prev,
         data: [],
         loading: false,
-        error: { message: errorMessage },
+        error: { message },
       }))
     }
-  }, [fetchFn, params])
+  }, [fetchFn, params, toast])
 
   useEffect(() => {
     fetchData()

@@ -32,6 +32,8 @@ const processQueue = (error: Error | null) => {
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
+    console.error("[API CLIENT ERROR]:", error)
+
     const { status } = error.response || {}
 
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }

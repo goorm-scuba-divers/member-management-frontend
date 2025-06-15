@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn-ui/table"
-import { useDataTable } from "@/hooks/useDataTable"
+import { useDataTable } from "@/hooks/tanstack/useDataTable"
 import SearchBar from "@/layouts/search-bar.layout"
 import type { FindMemberRequest, MemberPageResponse } from "@/lib/schemas"
 import { cn } from "@/lib/utils"
