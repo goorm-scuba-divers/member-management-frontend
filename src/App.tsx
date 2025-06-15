@@ -11,6 +11,8 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import "./App.css"
 
 function App() {
+  console.log("하이")
+  
   return (
     <ToastProvider>
       <BrowserRouter>
