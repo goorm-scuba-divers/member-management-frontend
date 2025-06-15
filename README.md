@@ -30,12 +30,6 @@ yarn install --immutable && yarn dev --port=4000
 - TypeScript strict 모드 사용
 - 컴포넌트는 함수형 컴포넌트 사용
 
-### 상태 관리
-
-- 전역 상태는 Zustand 사용
-- 폼 상태는 React Hook Form 사용
-- API 요청은 React Query 사용
-
 ## 기술 스택
 
 - React
